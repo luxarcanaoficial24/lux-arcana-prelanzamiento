@@ -90,7 +90,7 @@ export default function Home() {
             <span className="sep">·</span>
             <a href="https://tiktok.com/@luxarcanaoficial" target="_blank" rel="noopener">TikTok · @luxarcanaoficial</a>
             <span className="sep">·</span>
-            <a href="https://facebook.com/luxarcana" target="_blank" rel="noopener">Facebook · Lux Arcana</a>
+            <a href="https://www.facebook.com/profile.php?id=61589999397410" target="_blank" rel="noopener">Facebook · Lux Arcana</a>
           </div>
           <p className="footer-domain">luxarcana.com.mx</p>
         </footer>
@@ -269,7 +269,7 @@ export default function Home() {
         }
         .julio {
           font-family: 'Cormorant Garamond', serif;
-          font-size: 0.75rem;
+          font-size: 1rem;
           letter-spacing: 0.22em;
           color: #C8A46B;
         }
