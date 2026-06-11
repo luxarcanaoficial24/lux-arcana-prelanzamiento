@@ -50,7 +50,7 @@ export default function Home() {
             </div>
 
             <p className="tagline">El Reino no se explica.<br />Se experimenta.</p>
-            <p className="sub">Un camino de transformación,<br />propósito y legado.</p>
+            <p className="sub">Herramientas y reliquias exclusivas para un camino de transformación, propósito y legado.</p>
 
             <div className="form-wrap">
               {estado === 'success' ? (
