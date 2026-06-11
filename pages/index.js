@@ -4,11 +4,13 @@ import { useState } from 'react';
 export default function Home() {
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
+  const [acepta, setAcepta] = useState(false);
   const [estado, setEstado] = useState('idle');
+  const [modal, setModal] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!nombre || !correo) return;
+    if (!nombre || !correo || !acepta) return;
     setEstado('loading');
     try {
       const res = await fetch('/api/registro', {
@@ -16,7 +18,7 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nombre, correo }),
       });
-      if (res.ok) { setEstado('success'); setNombre(''); setCorreo(''); }
+      if (res.ok) { setEstado('success'); setNombre(''); setCorreo(''); setAcepta(false); }
       else setEstado('error');
     } catch { setEstado('error'); }
   }
@@ -31,6 +33,28 @@ export default function Home() {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
       </Head>
+
+      {/* Modal Aviso de Privacidad */}
+      {modal && (
+        <div className="modal-backdrop" onClick={() => setModal(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setModal(false)}>✕</button>
+            <h2 className="modal-title">Aviso de Privacidad Simplificado</h2>
+            <div className="modal-body">
+              <p>El titular de la plataforma digital, en su carácter de Responsable del tratamiento de sus datos personales, con domicilio en México y de conformidad con la legislación mexicana vigente, le informa que los datos recabados a través de este formulario (Nombre y Correo Electrónico) serán utilizados única y exclusivamente para las siguientes finalidades necesarias:</p>
+              <ol>
+                <li>Integrar su registro a la base de datos de lanzamiento de la plataforma comercial y e-commerce Lux Arcana Store.</li>
+                <li>Enviarle notificaciones, alertas de inventario y acceso anticipado para la adquisición de reliquias, journals, herramientas de diseño y artículos exclusivos (Clase 35).</li>
+                <li>Hacerle llegar invitaciones, boletines informativos y enlaces de acceso a los contenidos audiovisuales, publicaciones electrónicas y programas de introspección operados de forma independiente bajo el ecosistema patrocinado de The Hidden Kingdom® (Clase 41).</li>
+              </ol>
+              <p>Le informamos que sus datos personales no serán transferidos, comercializados ni compartidos con terceros ajenos a la operación de este ecosistema. En cualquier momento, usted podrá ejercer sus derechos de Acceso, Rectificación, Cancelación u Oposición (Derechos ARCO), así como revocar su consentimiento, enviando un correo electrónico a <strong>luxarcanaoficial@gmail.com</strong>. El Aviso de Privacidad Integral estará disponible para su consulta en este sitio web a partir de la apertura oficial de la plataforma.</p>
+            </div>
+            <button className="modal-btn" onClick={() => { setAcepta(true); setModal(false); }}>
+              Entendido — Acepto
+            </button>
+          </div>
+        </div>
+      )}
 
       <main className="root">
         <section className="hero">
@@ -65,7 +89,22 @@ export default function Home() {
                     <span className="input-icon">✉</span>
                     <input type="email" placeholder="Correo electrónico" value={correo} onChange={e => setCorreo(e.target.value)} required className="input" />
                   </div>
-                  <button type="submit" className="btn" disabled={estado === 'loading'}>
+                  <div className="checkbox-wrap">
+                    <input
+                      type="checkbox"
+                      id="acepta"
+                      checked={acepta}
+                      onChange={e => setAcepta(e.target.checked)}
+                      className="checkbox"
+                    />
+                    <label htmlFor="acepta" className="checkbox-label">
+                      He leído y acepto el{' '}
+                      <button type="button" className="aviso-link" onClick={() => setModal(true)}>
+                        Aviso de Privacidad
+                      </button>
+                    </label>
+                  </div>
+                  <button type="submit" className="btn" disabled={estado === 'loading' || !acepta}>
                     <span className="btn-star">✦</span>
                     {estado === 'loading' ? 'ENVIANDO...' : 'QUIERO ENTRAR AL REINO'}
                   </button>
@@ -125,7 +164,6 @@ export default function Home() {
             rgba(18,14,10,0.0) 100%
           );
         }
-
         .hero-content {
           position: relative;
           z-index: 2;
@@ -149,7 +187,6 @@ export default function Home() {
           letter-spacing: -0.01em;
           margin-bottom: 18px;
         }
-
         .divider-wrap {
           display: flex;
           align-items: center;
@@ -157,16 +194,8 @@ export default function Home() {
           margin-bottom: 20px;
           width: 220px;
         }
-        .divider-line {
-          flex: 1;
-          height: 1px;
-          background: #C8A46B;
-          opacity: 0.6;
-        }
-        .star {
-          color: #C8A46B;
-          font-size: 0.7rem;
-        }
+        .divider-line { flex: 1; height: 1px; background: #C8A46B; opacity: 0.6; }
+        .star { color: #C8A46B; font-size: 0.7rem; }
 
         .tagline {
           font-family: 'Cormorant Garamond', serif;
@@ -190,11 +219,7 @@ export default function Home() {
         .form-wrap { width: 100%; max-width: 420px; }
         .form { display: flex; flex-direction: column; gap: 12px; }
 
-        .input-wrap {
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
+        .input-wrap { position: relative; display: flex; align-items: center; }
         .input-icon {
           position: absolute;
           left: 16px;
@@ -218,6 +243,41 @@ export default function Home() {
         .input::placeholder { color: #8A7A6A; }
         .input:focus { border-color: #C8A46B; }
 
+        /* Checkbox */
+        .checkbox-wrap {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          margin-top: 2px;
+        }
+        .checkbox {
+          margin-top: 3px;
+          width: 15px;
+          height: 15px;
+          accent-color: #C8A46B;
+          cursor: pointer;
+          flex-shrink: 0;
+        }
+        .checkbox-label {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 0.88rem;
+          color: rgba(245,240,232,0.7);
+          line-height: 1.4;
+          cursor: pointer;
+        }
+        .aviso-link {
+          background: none;
+          border: none;
+          padding: 0;
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 0.88rem;
+          color: #C8A46B;
+          cursor: pointer;
+          text-decoration: underline;
+          text-underline-offset: 2px;
+        }
+        .aviso-link:hover { color: #E8C47A; }
+
         .btn {
           width: 100%;
           padding: 15px 24px;
@@ -230,15 +290,15 @@ export default function Home() {
           letter-spacing: 0.18em;
           color: #C8A46B;
           cursor: pointer;
-          transition: background 0.2s;
+          transition: background 0.2s, opacity 0.2s;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 10px;
           margin-top: 4px;
         }
-        .btn:hover { background: #111827; }
-        .btn:disabled { opacity: 0.6; cursor: default; }
+        .btn:hover:not(:disabled) { background: #111827; }
+        .btn:disabled { opacity: 0.4; cursor: default; }
         .btn-star { font-size: 0.65rem; }
 
         .success-msg {
@@ -248,11 +308,7 @@ export default function Home() {
           color: #C8A46B;
           padding: 20px 0;
         }
-        .error-msg {
-          font-size: 0.85rem;
-          color: #B96B4A;
-          letter-spacing: 0.04em;
-        }
+        .error-msg { font-size: 0.85rem; color: #B96B4A; letter-spacing: 0.04em; }
 
         .julio-wrap {
           display: flex;
@@ -261,30 +317,89 @@ export default function Home() {
           margin-top: 32px;
           width: 260px;
         }
-        .julio-line {
-          flex: 1;
-          height: 1px;
-          background: #C8A46B;
-          opacity: 0.5;
-        }
+        .julio-line { flex: 1; height: 1px; background: #C8A46B; opacity: 0.5; }
         .julio {
           font-family: 'Cormorant Garamond', serif;
           font-size: 1rem;
           letter-spacing: 0.22em;
           color: #C8A46B;
         }
-        .julio-star {
-          color: #C8A46B;
-          font-size: 0.6rem;
-          margin-top: 8px;
-          opacity: 0.7;
-        }
+        .julio-star { color: #C8A46B; font-size: 0.6rem; margin-top: 8px; opacity: 0.7; }
 
-        .footer {
+        /* Modal */
+        .modal-backdrop {
+          position: fixed;
+          inset: 0;
+          background: rgba(10,8,6,0.85);
+          z-index: 100;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           padding: 24px;
-          text-align: center;
-          background: #0f0d0a;
         }
+        .modal {
+          background: #F5F0E8;
+          max-width: 560px;
+          width: 100%;
+          max-height: 80vh;
+          overflow-y: auto;
+          padding: 40px 36px 32px;
+          position: relative;
+          border-radius: 2px;
+        }
+        .modal-close {
+          position: absolute;
+          top: 16px;
+          right: 20px;
+          background: none;
+          border: none;
+          font-size: 1rem;
+          color: #6B5F4A;
+          cursor: pointer;
+        }
+        .modal-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 1.4rem;
+          font-weight: 400;
+          color: #1F1E1C;
+          margin-bottom: 24px;
+          letter-spacing: 0.02em;
+        }
+        .modal-body {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          margin-bottom: 28px;
+        }
+        .modal-body p, .modal-body li {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 0.95rem;
+          color: #3A3530;
+          line-height: 1.7;
+        }
+        .modal-body ol {
+          padding-left: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        .modal-btn {
+          width: 100%;
+          padding: 13px;
+          background: #C8A46B;
+          border: none;
+          border-radius: 2px;
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 0.88rem;
+          letter-spacing: 0.14em;
+          color: #F5F0E8;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+        .modal-btn:hover { background: #B8923A; }
+
+        /* Footer */
+        .footer { padding: 24px; text-align: center; background: #0f0d0a; }
         .footer-links {
           display: flex;
           flex-wrap: wrap;
@@ -322,8 +437,10 @@ export default function Home() {
           }
           .hero-content { align-items: center; text-align: center; }
           .julio-wrap { margin-left: auto; margin-right: auto; }
+          .checkbox-wrap { text-align: left; }
           .sep { display: none; }
           .footer-links { flex-direction: column; gap: 5px; }
+          .modal { padding: 32px 24px 28px; }
         }
       `}</style>
     </>
