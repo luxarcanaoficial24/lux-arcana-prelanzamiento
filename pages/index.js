@@ -34,20 +34,19 @@ export default function Home() {
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
       </Head>
 
-      {/* Modal Aviso de Privacidad */}
       {modal && (
         <div className="modal-backdrop" onClick={() => setModal(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <button className="modal-close" onClick={() => setModal(false)}>✕</button>
-            <h2 className="modal-title">Aviso de Privacidad Simplificado</h2>
+            <h2 className="modal-title">Aviso de Privacidad</h2>
             <div className="modal-body">
-              <p>El titular de la plataforma digital, en su carácter de Responsable del tratamiento de sus datos personales, con domicilio en México y de conformidad con la legislación mexicana vigente, le informa que los datos recabados a través de este formulario (Nombre y Correo Electrónico) serán utilizados única y exclusivamente para las siguientes finalidades necesarias:</p>
+              <p>El titular de la plataforma digital, en su carácter de Responsable del tratamiento de sus datos personales, con domicilio en México y de conformidad con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP), le informa que los datos recabados a través de este formulario (Nombre y Correo Electrónico) serán utilizados exclusivamente para las siguientes finalidades indispensables:</p>
               <ol>
-                <li>Integrar su registro a la base de datos de lanzamiento de la plataforma comercial y e-commerce Lux Arcana Store.</li>
-                <li>Enviarle notificaciones, alertas de inventario y acceso anticipado para la adquisición de reliquias, journals, herramientas de diseño y artículos exclusivos (Clase 35).</li>
-                <li>Hacerle llegar invitaciones, boletines informativos y enlaces de acceso a los contenidos audiovisuales, publicaciones electrónicas y programas de introspección operados de forma independiente bajo el ecosistema patrocinado de The Hidden Kingdom® (Clase 41).</li>
+                <li><strong>Fase de Lanzamiento Comercial (LUX ARCANA - Clase 35):</strong> Integrar su registro a la base de datos exclusiva para el lanzamiento oficial en julio 2026, enviarle notificaciones de apertura, alertas de inventario y otorgarle acceso anticipado para la adquisición de reliquias, journals, herramientas de diseño y artículos premium.</li>
+                <li><strong>Fase de Contenido y Mentorías (THE HIDDEN KINGDOM / THK - Clase 41):</strong> Hacerle llegar invitaciones personalizadas, boletines informativos, accesos prioritarios a "El Diario" y enlaces a las producciones audiovisuales y programas de mentoría operados de forma independiente bajo dicho ecosistema místico y conceptual.</li>
               </ol>
-              <p>Le informamos que sus datos personales no serán transferidos, comercializados ni compartidos con terceros ajenos a la operación de este ecosistema. En cualquier momento, usted podrá ejercer sus derechos de Acceso, Rectificación, Cancelación u Oposición (Derechos ARCO), así como revocar su consentimiento, enviando un correo electrónico a <strong>luxarcanaoficial@gmail.com</strong>. El Aviso de Privacidad Integral estará disponible para su consulta en este sitio web a partir de la apertura oficial de la plataforma.</p>
+              <p>Se le notifica de forma expresa que las marcas denominativas citadas se encuentran con solicitudes de registro en trámite ante el Instituto Mexicano de la Propiedad Industrial (IMPI), delimitando sus giros comerciales bajo el Principio de Especialidad.</p>
+              <p>Sus datos personales no serán transferidos, comercializados ni compartidos con terceros ajenos a la operación integrada de este ecosistema. En todo momento, usted conserva el derecho de ejercer sus derechos de Acceso, Rectificación, Cancelación u Oposición (Derechos ARCO), así como de revocar su consentimiento, enviando una solicitud formal al correo electrónico: <strong>luxarcanaoficial@gmail.com</strong>. El Aviso de Privacidad Integral estará disponible de forma permanente para su consulta en este Sitio Web a partir del inicio de operaciones en Julio 2026.</p>
             </div>
             <button className="modal-btn" onClick={() => { setAcepta(true); setModal(false); }}>
               Entendido — Acepto
@@ -243,7 +242,6 @@ export default function Home() {
         .input::placeholder { color: #8A7A6A; }
         .input:focus { border-color: #C8A46B; }
 
-        /* Checkbox */
         .checkbox-wrap {
           display: flex;
           align-items: flex-start;
@@ -326,7 +324,6 @@ export default function Home() {
         }
         .julio-star { color: #C8A46B; font-size: 0.6rem; margin-top: 8px; opacity: 0.7; }
 
-        /* Modal */
         .modal-backdrop {
           position: fixed;
           inset: 0;
@@ -398,7 +395,6 @@ export default function Home() {
         }
         .modal-btn:hover { background: #B8923A; }
 
-        /* Footer */
         .footer { padding: 24px; text-align: center; background: #0f0d0a; }
         .footer-links {
           display: flex;
