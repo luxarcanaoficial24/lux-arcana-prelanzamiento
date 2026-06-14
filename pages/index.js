@@ -73,7 +73,7 @@ export default function Home() {
             </div>
 
             <p className="tagline">El Reino no se explica.<br />Se experimenta.</p>
-            <p className="sub">Herramientas y reliquias exclusivas para un camino de transformación, propósito y legado.</p>
+            <p className="sub">Herramientas y reliquias exclusivas para un camino de transformación, propósito y legado. — Una metodología de The Hidden Kingdom. Reliquias y estilo de vida por Lux Arcana.</p>
 
             <div className="form-wrap">
               {estado === 'success' ? (
